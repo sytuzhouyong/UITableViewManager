@@ -63,6 +63,10 @@
     // 3. 分隔线
     if (row.showLine) {
         self.line.backgroundColor = row.lineColor;
+        if (row.lineEdgeInsets.left + row.lineEdgeInsets.right > [[UIScreen mainScreen] applicationFrame].size.width) {
+            row.lineEdgeInsets = UIEdgeInsetsZero;
+            NSLog(@"⚠️：property lineEdgeInsets in row is invalid, so reset to 0");
+        }
         [_line mas_updateConstraints:^(MASConstraintMaker *make) {
             make.leading.equalTo(self.wrapperView).offset(row.lineEdgeInsets.left);
             make.trailing.equalTo(self.wrapperView).offset(-row.lineEdgeInsets.right);
