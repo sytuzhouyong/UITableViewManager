@@ -25,6 +25,7 @@
 - (void)commonInitWithTableView:(UITableView *)tableView {
     tableView.dataSource = self;
     tableView.delegate = self;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView = tableView;
     self.cellIdentifiers = [NSMutableSet set];
     self.indexPathDict = [NSMutableDictionary dictionaryWithCapacity:16];
@@ -113,12 +114,15 @@
     }
     
     NSInteger sectionIndex = 0, rowIndex = 0;
-    for (UITableViewSection2 *section in self.sections) {
+    for (UITableViewSection2 *section in _sections) {
         for (UITableViewRow2 *item in section.allRows) {
-            if ([row.uuid isEqualToString:item.uuid]) {
-                return [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
+            if (![row.uuid isEqualToString:item.uuid]) {
+                rowIndex++;
+                continue;
             }
-            rowIndex++;
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
+            _indexPathDict[row.uuid] = indexPath;
+            return indexPath;
         }
         sectionIndex++;
     }
@@ -162,6 +166,12 @@
             [indexPaths addObject:indexPath];
         }
     }
+    for (UITableViewRow2 *row in rows) {
+        NSIndexPath *indexPath = [self indexPathOfRow:row];
+        if (indexPath != nil) {
+            [self.sections[indexPath.section] deleteRows:@[row]];
+        }
+    }
     [self deleteRowsAtIndexPaths:indexPaths];
 }
 
@@ -182,17 +192,31 @@
         return NSOrderedDescending;
     }];
     
-    NSMutableIndexSet *emptySections = [NSMutableIndexSet indexSet];
+    // 删除 section 下的 row
     for (NSIndexPath *indexPath in sortedIndexPaths) {
-        [self deleteRowAtIndexPath:indexPath];
-        UITableViewSection2 *section = [self sectionAtIndex:indexPath.section];
-        if ([section allRows].count == 0) {
-            [emptySections addIndex:indexPath.section];
+        [_sections[indexPath.section] deleteRowAtIndex:indexPath.row];
+    }
+    // 找出所有空的 section，并删除空 section
+    NSMutableIndexSet *emptySections = [NSMutableIndexSet indexSet];
+    for (NSInteger i=0; i<_sections.count; i++) {
+        UITableViewSection2 *section = _sections[i];
+        if (section.allRows.count == 0) {
+            [emptySections addIndex:i];
+            [_sections removeObjectAtIndex:i];
         }
     }
-    if (emptySections.count != 0) {
-        [self.tableView deleteSections:emptySections withRowAnimation:UITableViewRowAnimationAutomatic];
+    // 删除除了 导致空 section 外的 row
+    NSMutableArray<NSIndexPath *> *_indexPaths = [NSMutableArray arrayWithArray:indexPaths];
+    for (NSIndexPath *indexPath in indexPaths) {
+        if ([emptySections containsIndex:indexPath.section]) {
+            [_indexPaths removeObject:indexPath];
+        }
     }
+    
+    [self.tableView beginUpdates];
+    [self.tableView deleteRowsAtIndexPaths:_indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView deleteSections:emptySections withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
     [self refreshIndexPathDict];
 }
 

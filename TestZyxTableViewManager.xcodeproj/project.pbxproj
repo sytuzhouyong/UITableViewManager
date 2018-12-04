@@ -43,7 +43,7 @@
 		2507C91E207226BD00698A9D /* UITableViewRow2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableViewRow2.h; sourceTree = "<group>"; };
 		2507C926207227AF00698A9D /* BFModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BFModel.h; sourceTree = "<group>"; };
 		2507C927207227AF00698A9D /* BFModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BFModel.m; sourceTree = "<group>"; };
-		2507C9292072289500698A9D /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		2507C9292072289500698A9D /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		2507C92B20722DE300698A9D /* UITableViewManager2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableViewManager2.h; sourceTree = "<group>"; };
 		2507C92C20722DE300698A9D /* UITableViewManager2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableViewManager2.m; sourceTree = "<group>"; };
 		2507C92F20735E7B00698A9D /* YYWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYWeakProxy.m; sourceTree = "<group>"; };

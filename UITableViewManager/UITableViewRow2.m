@@ -9,6 +9,8 @@
 
 @interface UITableViewRow2 ()
 
+@property (nonatomic, strong) NSMutableDictionary *cachedDataDict;
+
 @end
 
 @implementation UITableViewRow2
@@ -89,6 +91,16 @@
         cellIdentifiers[key] = [NSString stringWithFormat:@"%@Cell", key];
     }
     return cellIdentifiers[key];
+}
+
+- (id)cachedDataForKey:(NSString *)key {
+    return _cachedDataDict[key];
+}
+- (void)addCacheData:(id)data forKey:(NSString *)key {
+    if (_cachedDataDict == nil) {
+        _cachedDataDict = [NSMutableDictionary dictionary];
+    }
+    _cachedDataDict[key] = data;
 }
 
 @end

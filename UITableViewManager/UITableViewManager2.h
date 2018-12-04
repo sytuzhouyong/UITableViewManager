@@ -47,6 +47,7 @@ typedef NS_ENUM(NSInteger, UITableViewDataSourceChangeType) {
 // MARK: - Edit Util Methods
 - (void)insertRows:(NSArray<UITableViewRow2 *> *)rows atIndex:(NSUInteger)index;
 - (void)insertRows:(NSArray<UITableViewRow2 *> *)rows atIndexPath:(NSIndexPath *)indexPath;
+// Warning：左滑删除时会有 bug：用 deleteRowsAtIndexPaths 会在每次左滑删除最上面的cell 后，导致下次左滑出现的删除按钮位置错误
 - (void)deleteRows:(NSArray<UITableViewRow2 *> *)rows;
 - (void)deleteRowAtIndex:(NSInteger)index;
 - (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath;

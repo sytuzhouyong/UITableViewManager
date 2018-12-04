@@ -38,7 +38,7 @@
 @property (nonatomic, strong) NSArray<UITableViewRowAction *> *rowActions;  // 左滑cell时出现什么按钮
 
 @property (nonatomic, strong) BFModel *model;   // 数据
-@property (nonatomic, weak) UITableViewSection2 *section;
+@property (nonatomic, weak) UITableViewSection2 *section;   // row 所在的 section
 
 @property (nonatomic, copy) void(^ didSelectBlock)(UITableViewRow2 *row, NSIndexPath *indexPath);
 
@@ -48,7 +48,12 @@
 - (instancetype)initWithModel:(BFModel *)model;
 - (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
 
+/// cell 标识
 + (NSString *)cellIdentifier;
+
+/// 缓存数据
+- (id)cachedDataForKey:(NSString *)key;
+- (void)addCacheData:(id)data forKey:(NSString *)key;
 
 @end
 
